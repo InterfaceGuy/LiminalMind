@@ -2,13 +2,22 @@ import importlib
 import pydeation.imports
 importlib.reload(pydeation.imports)
 from pydeation.imports import *
-from HeadWithShoulders.HeadWithShoulders import HeadWithShoulders
+#from HeadWithShoulders.HeadWithShoulders import HeadWithShoulders
+
+
+class HeadWithShoulders(USD):
+
+    def __init__(self, **kwargs):
+        file_path = "/Users/davidrug/Library/Mobile Documents/iCloud~md~obsidian/Documents/InterBrain/LiminalMind/HeadWithShoulders/HeadWithShoulders.usdz"
+        fill_color = BLACK
+        outline_only = True
+        super().__init__(file_path=file_path, fill_color=fill_color, outline_only=outline_only, **kwargs)
 
 
 class LiminalitySymbol(CustomObject):
     """the trinity symbol consisting of a circle, a rectangle, the tilde and an arrow connection"""
 
-    def __init__(self, relationship=None, diameter=10, **kwargs):
+    def __init__(self, relationship=None, **kwargs):
         self.relationship = relationship
         super().__init__(**kwargs)
 
@@ -20,8 +29,8 @@ class LiminalitySymbol(CustomObject):
         self.right_semi_circle.move(x=self.right_semi_circle.radius)
         self.right_semi_circle.rotate(h=PI, p=PI/2)
         self.tilde = Group(self.left_semi_circle, self.right_semi_circle, h=PI/4, name="Tilde")
-        self.circle = Circle(radius=15, x=35, z=35, color=RED, plane="xz", filled=True)
-        self.rectangle = Rectangle(width=25, height=25, x=-35, z=-35, color=RED, plane="xz", filled=True)
+        self.circle = Circle(radius=15, x=35, z=35, color=RED, plane="xz", filled=True, opacity=0)
+        self.rectangle = Rectangle(width=25, height=25, x=-35, z=-35, color=RED, plane="xz", filled=True, opacity=0)
         self.parts = [self.tilde, self.circle, self.rectangle]
         if self.relationship == "right":
             self.arrow = Arrow(start_point=(-22, 0, -22), stop_point=(20, 0, 20))
@@ -86,8 +95,10 @@ class LiminalMind(CustomObject):
 class LiminalMind3D(CustomObject):
 
     def specify_parts(self):
-        self.liminality_symbol = LiminalitySymbol()
-        self.head = HeadWithShoulders(scale=2.8, y=-70, z=7)
+        self.liminality_symbol = LiminalitySymbol(p=PI/2, y=18, z=-25, diameter=15)
+        self.head = HeadWithShoulders(scale=2.8)
+        self.head.move(y=-70, z=7)
+        self.liminality_symbol.wrap_around(target=self.head)
         self.parts += [self.liminality_symbol, self.head]
 
     def specify_creation(self):
@@ -99,3 +110,4 @@ class LiminalMind3D(CustomObject):
 
 if __name__ == "__main__":
     liminal_mind = LiminalMind3D(creation=True)
+    #head = HeadWithShoulders()
