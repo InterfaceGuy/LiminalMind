@@ -1,7 +1,7 @@
 import importlib
-import pydeation.imports
-importlib.reload(pydeation.imports)
-from pydeation.imports import *
+import DreamTalk.imports
+importlib.reload(DreamTalk.imports)
+from DreamTalk.imports import *
 #from HeadWithShoulders.HeadWithShoulders import HeadWithShoulders
 
 
@@ -98,7 +98,7 @@ class LiminalMind3D(CustomObject):
         self.liminality_symbol = LiminalitySymbol(p=PI/2, y=18, z=-25, diameter=15)
         self.head = HeadWithShoulders(scale=2.8)
         self.head.move(y=-70, z=7)
-        self.liminality_symbol.wrap_around(target=self.head)
+        self.liminality_symbol.project_to_surface(projection_surface=self.head, orientation="y-", offset=0.1)
         self.parts += [self.liminality_symbol, self.head]
 
     def specify_creation(self):
